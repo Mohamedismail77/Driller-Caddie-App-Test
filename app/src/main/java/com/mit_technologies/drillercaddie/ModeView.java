@@ -1,5 +1,5 @@
 package com.mit_technologies.drillercaddie;
 
 public interface ModeView {
-    void onModeChanged();
+    void onModeChanged(int modeIconResource);
 }

@@ -3,6 +3,7 @@ package com.mit_technologies.drillercaddie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -10,16 +11,17 @@ import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity implements KeyView, ModeView, TimerView {
 
-    private Spinner mode;
+    public Spinner mode;
     private Spinner key;
     private Spinner period;
     public Spinner toolNum;
-    private ImageView modeIcon;
+    public ImageView modeIcon;
     private ProgressBar periodProgress;
     private Button start;
     private Button reset;
 
     DropDownAdapter mToolsAdapter;
+    DropDownAdapter mModeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
         key = findViewById(R.id.key);
         period = findViewById(R.id.period);
 
-        modeIcon = findViewById(R.id.image);
+        modeIcon = findViewById(R.id.mode_icon);
 
         start = findViewById(R.id.start);
         reset = findViewById(R.id.reset);
@@ -45,6 +47,25 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
         // Set ToolNumber Adapter
         toolNum.setAdapter(mToolsAdapter);
 
+        // Initiate ModePresenter
+        final ModePresenter modePresenter = new ModePresenter(this);
+        // Create ModeAdapter
+        mModeAdapter = new DropDownAdapter(this,modePresenter.getModeTitles());
+        // Set Mode Adapter
+        mode.setAdapter(mModeAdapter);
+
+        // Set mode on select listener
+        mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                modePresenter.setModeIcon(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -57,10 +78,9 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
     }
 
     @Override
-    public void onModeChanged() {
-
+    public void onModeChanged(int modeIconResource) {
         //Change Image view to match the mode Image
-
+        modeIcon.setImageDrawable(getResources().getDrawable(modeIconResource));
     }
 
     @Override
