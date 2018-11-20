@@ -13,11 +13,13 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
     private Spinner mode;
     private Spinner key;
     private Spinner period;
-    private Spinner toolNum;
+    public Spinner toolNum;
     private ImageView modeIcon;
     private ProgressBar periodProgress;
     private Button start;
     private Button reset;
+
+    DropDownAdapter mToolsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,13 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
         reset = findViewById(R.id.reset);
 
         periodProgress = findViewById(R.id.timer);
+
+        // Initiate ToolPresenter
+        ToolPresenter toolPresenter = new ToolPresenter();
+        // Create ToolAdapter
+        mToolsAdapter = new DropDownAdapter(this,toolPresenter.getToolsNumbers());
+        // Set ToolNumber Adapter
+        toolNum.setAdapter(mToolsAdapter);
 
 
     }
