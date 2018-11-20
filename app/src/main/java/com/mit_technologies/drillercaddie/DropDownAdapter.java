@@ -46,4 +46,13 @@ public class DropDownAdapter extends BaseAdapter {
         ((TextView)convertView).setText(mData[position]);
         return convertView;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
+    public void updateData(String[] data){
+        this.mData = data;
+    }
 }

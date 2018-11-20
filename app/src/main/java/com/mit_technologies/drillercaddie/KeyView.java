@@ -2,5 +2,5 @@ package com.mit_technologies.drillercaddie;
 
 public interface KeyView {
 
-    void onKeyChanged();
+    void onKeyChanged(String[] keyPeriods);
 }

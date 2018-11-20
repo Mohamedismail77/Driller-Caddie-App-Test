@@ -7,7 +7,7 @@ public class ModePresenter {
 
     public ModePresenter(ModeView modeView){
 
-        //Create new Mode Array to used in Tool DropDown list
+        //Create new Mode Array to used in Mode DropDown list
         this.mModes = new Mode[]{new HomeMode(),new BypassMode(),
                 new DualFlowMode(), new IsolationMode()};
         this.mModeView = modeView;
@@ -16,14 +16,14 @@ public class ModePresenter {
     /* getModeTitles: Provide the DropDown list with string array of available tools  */
     public String[] getModeTitles(){
         // create string array to hold Modes titles
-        String[] ModesTitles = new String[mModes.length];
+        String[] mModesTitles = new String[mModes.length];
 
         // Iterate over Modes array
         for(int i = 0 ; i < mModes.length ; i++){
-            ModesTitles[i] = String.valueOf(mModes[i].title);
+            mModesTitles[i] = mModes[i].title;
         }
 
-        return ModesTitles;
+        return mModesTitles;
     }
 
 
@@ -33,5 +33,13 @@ public class ModePresenter {
     public void setModeIcon(int modeIndex){
         this.mModeView.onModeChanged(mModes[modeIndex].icon);
     }
+
+
+    /* Remove Presenter Interface */
+    public void onDestroy(){
+        mModeView = null;
+    }
+
+
 
 }

@@ -15,18 +15,28 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
     private Spinner key;
     private Spinner period;
     public Spinner toolNum;
+
     public ImageView modeIcon;
     private ProgressBar periodProgress;
     private Button start;
     private Button reset;
 
-    DropDownAdapter mToolsAdapter;
-    DropDownAdapter mModeAdapter;
+    private DropDownAdapter mToolsAdapter;
+    private DropDownAdapter mModeAdapter;
+    private DropDownAdapter mKeyAdapter;
+    private DropDownAdapter mPeriodAdapter;
+
+    private KeyPresenter keyPresenter;
+    private ModePresenter modePresenter;
+
+    private Bundle savedInstances;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        savedInstances = savedInstanceState;
 
         toolNum = findViewById(R.id.tool);
         mode = findViewById(R.id.mode);
@@ -48,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
         toolNum.setAdapter(mToolsAdapter);
 
         // Initiate ModePresenter
-        final ModePresenter modePresenter = new ModePresenter(this);
+        modePresenter = new ModePresenter(this);
         // Create ModeAdapter
         mModeAdapter = new DropDownAdapter(this,modePresenter.getModeTitles());
         // Set Mode Adapter
@@ -67,13 +77,77 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
             }
         });
 
+        // Initiate ModePresenter
+        keyPresenter = new KeyPresenter(this,this);
+        // Create ModeAdapter
+        mKeyAdapter = new DropDownAdapter(this,keyPresenter.getKeyTitles());
+        // Set Mode Adapter
+        key.setAdapter(mKeyAdapter);
+
+        // Set mode on select listener
+        key.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                keyPresenter.setPeriodList(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyPresenter.startTimer(key.getSelectedItemPosition(),period.getSelectedItemPosition());
+            }
+        });
+
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyPresenter.stopTimer();
+            }
+        });
+
+        // Retrieve Saved state
+        if(savedInstanceState != null){
+            if(savedInstanceState.getBoolean("isProgress")){
+                periodProgress.setVisibility(View.VISIBLE);
+                keyPresenter.continueTimer(key.getSelectedItemPosition(),savedInstanceState.getInt("period"),savedInstances.getInt("progress"));
+            }
+        }
+
     }
 
+
     @Override
-    public void onKeyChanged() {
+    public void onKeyChanged(String[] keyPeriods) {
 
         // Change Data in period dropdown to match key
         //Update period adapter by new list
+
+        //check if period adapter is initialized
+        if(mPeriodAdapter != null){
+            // Update Data
+            mPeriodAdapter.updateData(keyPeriods);
+            mPeriodAdapter.notifyDataSetChanged();
+        } else {
+            // Create mPeriod Adapter
+            mPeriodAdapter = new DropDownAdapter(this,keyPeriods);
+            period.setAdapter(mPeriodAdapter);
+
+        }
+
+        // Retrieve Saved state
+        if(savedInstances!= null){
+            period.setSelection(savedInstances.getInt("period"));
+            savedInstances = null;
+        }
+
 
     }
 
@@ -84,13 +158,16 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
     }
 
     @Override
-    public void onTimerStart() {
+    public void onTimerStart(int interval) {
 
         // Disable Key and period selector
         period.setEnabled(false);
         key.setEnabled(false);
+        mode.setEnabled(false);
+        toolNum.setEnabled(false);
 
         // show timer progress
+        periodProgress.setMax(interval);
         periodProgress.setVisibility(View.VISIBLE);
 
     }
@@ -104,21 +181,14 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
     }
 
     @Override
-    public void onTimerFinish() {
-        // Enable Key and period selector
-        period.setEnabled(true);
-        key.setEnabled(true);
-
-        // show timer progress
-        periodProgress.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
     public void onTimerReset() {
 
-        // Enable Key and period selector
+        // Enable ToolNumber, Mode, Key and period selector
         period.setEnabled(true);
         key.setEnabled(true);
+        mode.setEnabled(true);
+        toolNum.setEnabled(true);
+
 
         // show timer progress
         periodProgress.setVisibility(View.INVISIBLE);
@@ -126,5 +196,21 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
         //reset progress
         periodProgress.setProgress(0);
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        modePresenter.onDestroy();
+        keyPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("progress",periodProgress.getProgress());
+        outState.putBoolean("isProgress",periodProgress.getVisibility()==View.VISIBLE);
+        outState.putInt("period",period.getSelectedItemPosition());
+        super.onSaveInstanceState(outState);
     }
 }
