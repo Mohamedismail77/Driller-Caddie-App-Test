@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Driller Caddie</string>
+    <string name="tool">Tool#:</string>
+    <string name="mode">Mode:</string>
+    <string name="key">Key:</string>
+    <string name="period">Period:</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="mode_image_description">mode image</string>
 </resources>
