@@ -35,10 +35,6 @@ public class ModePresenter {
     }
 
 
-    /* Remove Presenter Interface */
-    public void onDestroy(){
-        mModeView = null;
-    }
 
 
 

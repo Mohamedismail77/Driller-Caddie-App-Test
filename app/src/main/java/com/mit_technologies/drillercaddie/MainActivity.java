@@ -201,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements KeyView, ModeView
 
     @Override
     protected void onDestroy() {
-        modePresenter.onDestroy();
-        keyPresenter.onDestroy();
         super.onDestroy();
     }
 

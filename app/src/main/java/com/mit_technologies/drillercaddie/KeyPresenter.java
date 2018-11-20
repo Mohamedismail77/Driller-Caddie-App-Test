@@ -117,10 +117,5 @@ public class KeyPresenter {
         mTimerView.onTimerReset();
     }
 
-    /* Remove Presenter Interface */
-    public void onDestroy(){
-        mTimerView = null;
-        mKeyView = null;
-    }
 
 }
