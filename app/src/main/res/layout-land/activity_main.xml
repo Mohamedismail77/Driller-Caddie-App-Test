@@ -10,7 +10,7 @@
     <!-- Selected Mode Image-->
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/mode_icon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -59,7 +59,7 @@
         android:dropDownVerticalOffset="5dp"
         android:spinnerMode="dropdown"
         app:layout_constraintDimensionRatio=""
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintStart_toEndOf="@id/tool_label"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,7 +94,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintStart_toEndOf="@id/mode_label"
         app:layout_constraintTop_toBottomOf="@id/tool" />
 
@@ -133,7 +133,7 @@
         android:dropDownVerticalOffset="5dp"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@id/period"
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintStart_toEndOf="@id/key_label"
         app:layout_constraintTop_toBottomOf="@id/mode" />
 
@@ -169,7 +169,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintStart_toEndOf="@id/period_label"
         app:layout_constraintTop_toBottomOf="@id/key"
         />
@@ -188,9 +188,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/start"
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/period"
+        android:visibility="invisible"
 
         />
 
@@ -222,7 +223,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/image"
+        app:layout_constraintEnd_toStartOf="@id/mode_icon"
         app:layout_constraintTop_toBottomOf="@id/period" />
 
 

@@ -10,7 +10,7 @@
     <!-- Selected Mode Image-->
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/mode_icon"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -65,7 +65,7 @@
         app:layout_constraintBottom_toTopOf="@id/mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/period_label"
-        app:layout_constraintTop_toBottomOf="@id/image" />
+        app:layout_constraintTop_toBottomOf="@id/mode_icon" />
 
     <!-- Label of mode selector-->
 
